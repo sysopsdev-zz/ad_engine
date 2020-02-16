@@ -16,6 +16,7 @@ class Game
         Game();
         ~Game();
         bool IsRunning() const;
+        int ticksOfLastFrame;
         void Initialize(int width, int height);
         void ProcessInput();
         void Update();
