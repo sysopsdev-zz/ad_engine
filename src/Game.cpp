@@ -1,6 +1,7 @@
 #include <iostream>
 #include "./Constants.h"
 #include "./Game.h"
+#include "../lib/glm/glm.hpp"
 
 Game::Game()
 {
@@ -18,10 +19,8 @@ bool Game::IsRunning() const
 
 }
 
-float projectilePositionX = 0.0f;
-float projectilePositionY = 0.0f;
-float projectileVelocityX = 20.0f;
-float projectileVelocityY = 30.0f;
+glm::vec2 projectilePosition = glm::vec2(0.0f, 0.0f);
+glm::vec2 projectileVelocity = glm::vec2(20.0f, 20.0f);
 
 void Game::Initialize(int width, int height)
 {
@@ -94,9 +93,11 @@ void Game::Update()
 
     // New ticks for current frame in the next pass
     ticksOfLastFrame = SDL_GetTicks();
-
-    projectilePositionX += projectileVelocityX * deltaTime;
-    projectilePositionY += projectileVelocityY * deltaTime;
+    // Use deltaTime to update game objects 
+    projectilePosition = glm::vec2(
+            projectilePosition.x + projectileVelocity.x * deltaTime,
+            projectilePosition.y + projectileVelocity.y * deltaTime
+    );
 }
 
 void Game::Render()
@@ -106,8 +107,8 @@ void Game::Render()
 
     SDL_Rect projectile 
     {
-        (int) projectilePositionX,
-        (int) projectilePositionY,
+        (int) projectilePosition.x,
+        (int) projectilePosition.y,
         10,
         10
     };
